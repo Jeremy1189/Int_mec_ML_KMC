@@ -1,12 +1,12 @@
 # Int_mec_ML_KMC
- This repository demonstrates how the ML-KMC approach is applied to study interstitial-mediated diffusion in CSAs, from data preparation to performing diffusion simulations. For any questions or issues regarding the code, please feel free to contact me by biaoxu4@cityu.edu.hk; xubiao1189@hnu.edu.cn; xubiao1189@gmail.com.
+ This repository demonstrates how the ML-KMC approach is applied to study interstitial-mediated diffusion in CSAs, from data preparation to performing diffusion simulations. For any questions or issues regarding the code, please feel free to contact me.
 # Purpose:
 **This code is shared to help understand the methods in the research paper below or potentially apply the methods to explore the mechanism of interstitial sluggish diffusion in CSAs. **
 ***
 ## Research Title: Revealing the Interstitial-Mediated Sluggish Diffusion Mechanism in Concentrated Solid-Solution Alloys via Machine Learning-Integrated Kinetic Monte Carlo
 ***
-### Research Group: Shijun ZHAO, J.J. Kai's Group in MNE, CityU
-### Contact email: biaoxu4@cityu.edu.hk 
+### Research Group: Shijun ZHAO, J.J. Kai's Group in MNE, CityU; Huiqiu Deng in HNU.
+### Contact email: by biaoxu4@cityu.edu.hk; xubiao1189@hnu.edu.cn; xubiao1189@gmail.com
 ***
 ## Abstract:
 ![image](https://github.com/user-attachments/assets/15236417-3541-45a9-b3de-cf43121c7353)![image](https://github.com/user-attachments/assets/5ceb8d58-4cf8-4278-bf7b-e8e98c6c68b6)
