@@ -1,0 +1,44 @@
+# --------------- INITIALIZATION ------------------
+clear
+units 		metal
+dimension	3
+boundary	p p p
+atom_style	atomic
+atom_modify     map array
+
+variable 	latparam1 equal 3.519
+
+# --------------------- ATOM DEFINITION ---------------------
+lattice         fcc ${latparam1}
+region          whole block 0 10 0 10 0 10
+create_box      1 whole
+create_atoms    1 region whole
+mass            1 58.69
+
+# --------------------- FORCE FIELDS ---------------------
+
+pair_style      eam/alloy
+pair_coeff 	* * /home/shijzhao/lammps-22Aug18/mypotential/FeNiCr.eam.alloy Ni
+
+# --------------------- SETTINGS ---------------------
+
+#----------------------Run Minimization-------------------------
+group Ni type 1
+group Co type 2
+group Fe type 3
+group Cr type 4
+
+variable NNi0 equal count(Ni)
+variable NFe0 equal count(Fe)
+variable nni0 equal ${NNi0}
+variable nfe0 equal ${NFe0}
+print "XXXXXXXXXXXXXX number of Ni ${nni0} Fe ${nfe0}"
+reset_timestep	0
+
+thermo 10
+thermo_style custom step pe lx ly lz press pxx pyy pzz etotal
+
+dump 1 all custom 1 dump1.lammpstrj id type xs ys zs
+dump_modify 1 sort id
+
+run 1

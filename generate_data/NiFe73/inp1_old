@@ -1,0 +1,46 @@
+
+# --------------- INITIALIZATION ------------------
+clear
+echo            none
+units 		metal
+dimension	3
+boundary	p p p
+atom_style	atomic
+atom_modify     map array
+
+# ------------------ ATOM DEFINITION -------------------
+
+read_data       datafile1
+ 
+# ------------------------ FORCE FIELDS -----------------------
+pair_style	eam/alloy
+#pair_coeff * *  /home/shijzhao/lammps-22Aug18/mypotential/multi2.eam.alloy Ni Co Fe Cr Al
+#pair_coeff * *  /home/shijzhao/lammps-22Aug18/mypotential/multi2.eam.alloy Al
+#pair_coeff * *  /home/shijzhao/lammps-22Aug18/mypotential/FeNiCr.eam.alloy Ni Fe Cr
+pair_coeff * * FeNiCr.eam.alloy Ni Fe
+
+
+#---------------------------Settings----------------------------
+group Ni type 1
+group Co type 2
+group Fe type 3
+group Cr type 4
+group Al type 5
+
+variable n1 equal count(Ni)
+variable n2 equal count(Co)
+variable n3 equal count(Fe)
+variable n4 equal count(Cr)
+variable n5 equal count(Al)
+
+#----------------------Run Minimization-------------------------
+dump            1 all custom 100 dump1.lammpstrj id type x y z
+dump_modify     1 sort id
+
+min_style 	cg
+minimize 	1e-10 1e-10 5000 5000
+
+variable 	E equal etotal
+
+print 		"TOTAL energy is $E"
+print 		"Atom number: ${n1} ${n2} ${n3} ${n4} ${n5}"

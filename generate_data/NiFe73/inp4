@@ -1,0 +1,46 @@
+
+# --------------- INITIALIZATION ------------------
+clear
+echo            none
+units 		metal
+dimension	3
+boundary	p p p
+atom_style	atomic
+atom_modify     map array
+
+# ------------------ ATOM DEFINITION -------------------
+
+read_data       new_datafile2
+ 
+# ------------------------ FORCE FIELDS -----------------------
+pair_style      eam/alloy
+#pair_coeff      * * FeNiCr.eam.alloy Ni Fe
+pair_coeff * *  /home/biaoxu4/lammpssss/My_potential/FeNiCr.eam.alloy Ni Fe
+
+group Ni type 1
+group Fe type 2
+
+variable n1 equal count(Ni)
+variable n2 equal count(Fe)
+
+#----------------------Run Minimization-------------------------
+
+dump 		4 all custom 100 dump4.lammpstrj id type x y z
+dump_modify 	4 sort id
+thermo_style    custom step temp etotal
+
+min_style 	cg
+minimize 	1e-10 1e-10 5000 5000
+
+####################################
+#
+variable        u uloop 2000
+dump            events all custom 1000 dumpneb.$u id type x y z
+
+fix 1           all neb 10.0
+thermo          100
+
+timestep        0.0005
+min_style       quickmin
+
+neb             0.0 1e-6 5000 5000 500 final final

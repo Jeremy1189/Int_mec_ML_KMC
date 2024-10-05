@@ -1,0 +1,69 @@
+# --------------- INITIALIZATION ------------------
+clear
+echo            none
+units 		metal
+dimension	3
+boundary	p p p
+atom_style	atomic
+atom_modify     map array
+
+# ------------------ ATOM DEFINITION -------------------
+
+read_data       datafile3
+ 
+# ------------------------ FORCE FIELDS -----------------------
+pair_style	eam/alloy
+#pair_coeff * *  /home/shijzhao/lammps-22Aug18/mypotential/multi2.eam.alloy Ni Co Fe Cr Al
+#pair_coeff * *  /home/shijzhao/lammps-22Aug18/mypotential/multi2.eam.alloy Al
+#pair_coeff * *  /home/shijzhao/lammps-22Aug18/mypotential/FeNiCr.eam.alloy Ni Fe Cr
+#pair_coeff      * *  /home/shijzhao/lammps-22Aug18/mypotential/Mishin-Ni-Al-2009.eam.alloy Ni Al
+#pair_coeff * *  FeNiCr.eam.alloy Ni Fe Cr
+pair_coeff * *  /home/biaoxu4/lammpssss/My_potential/FeNiCr.eam.alloy Ni Fe
+#---------------------------Settings----------------------------
+group Ni type 1
+group Fe type 2
+group Cr type 3
+
+
+
+variable n1 equal count(Ni)
+variable n2 equal count(Fe)
+variable n3 equal count(Cr)
+
+#----------------------Run Minimization-------------------------
+
+variable  	Nd equal atoms
+variable  	N equal ${Nd}-1
+variable        mig_ID equal $N/2+221
+variable        target_ID equal ${mig_ID}+1
+
+
+group 		I1 id ${mig_ID}
+group 		I2 id ${Nd}
+group           I3 id ${target_ID}
+print           "the recorded displacement IDs: ${mig_ID} ${Nd}  ${target_ID} "
+
+
+compute 	1 I1 displace/atom
+compute 	2 I2 displace/atom
+compute         3 I3 displace/atom
+
+compute 	r1 I1 reduce sum c_1[4]
+compute 	r2 I2 reduce sum c_2[4]
+compute         r3 I3 reduce sum c_3[4]
+
+dump 		3 all custom 100 dump3.lammpstrj id type x y z
+dump_modify 	3 sort id
+thermo_style    custom step temp etotal c_r1 c_r2 c_r3
+
+min_style 	cg
+minimize 	1e-10 1e-10 5000 5000
+
+variable 	E equal etotal
+variable 	d1 equal c_r1
+variable 	d2 equal c_r2
+variable        d3 equal c_r3
+
+print 		"TOTAL energy is $E"
+print 		"Atom number: ${n1} ${n2} ${n3}"
+print 		"Displacement: ${d1} ${d2} ${d3}"
