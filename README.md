@@ -1,5 +1,5 @@
 # Int_mec_ML_KMC
- This repository demonstrates how the ML-KMC approach is applied to study interstitial-mediated diffusion in CSAs, from data preparation to performing diffusion simulations.
+ This repository demonstrates how the ML-KMC approach is applied to study interstitial-mediated diffusion in CSAs, from data preparation to performing diffusion simulations. For any questions or issues regarding the code, please feel free to contact me by biaoxu4@cityu.edu.hk; xubiao1189@hnu.edu.cn; xubiao1189@gmail.com.
 # Purpose:
 **This code is shared to help understand the methods in the research paper below or potentially apply the methods to explore the mechanism of interstitial sluggish diffusion in CSAs. 
 ***
